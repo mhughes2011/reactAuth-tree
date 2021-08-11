@@ -72,10 +72,35 @@ export default class UserSignUp extends Component {
   }
 
   submit = () => {
+    const {
+      name,
+      username,
+      password
+    } = this.state;
 
+    const {context} = this.props;
+
+    const user = {
+      name: name,
+      username: username, 
+      password: password
+    };
+
+    context.data.createUser(user)
+      .then(errors => {
+        if(errors.length) {
+          this.setState({errors});
+        } else {
+          console.log(`${username} is successfully signed up and authenticated!`);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        this.props.history.push('/error');
+      });
   }
 
   cancel = () => {
-
+    this.props.history.push('/');
   }
 }
